@@ -1,0 +1,127 @@
+### Variables
+@baseUrl = http://localhost:5000
+@apiUrl = {{baseUrl}}/api
+
+### Health Check
+GET {{baseUrl}}/health
+
+### ============================================
+### RECIPE ENDPOINTS
+### ============================================
+
+### Get All Recipes (with pagination)
+GET {{apiUrl}}/recipes?page=1&limit=12
+
+### Get All Recipes with Filters
+GET {{apiUrl}}/recipes?difficulty=easy&cuisine=italian&maxTime=30
+
+### Get Recipe by ID
+GET {{apiUrl}}/recipes/recipe-001
+
+### Get Available Cuisines
+GET {{apiUrl}}/recipes/cuisines
+
+### Get Dietary Options
+GET {{apiUrl}}/recipes/dietary
+
+### Search Recipes by Ingredients
+POST {{apiUrl}}/recipes/search
+Content-Type: application/json
+
+{
+  "ingredients": ["chicken", "tomato", "garlic", "onion"],
+  "dietary": "gluten-free",
+  "maxTime": 45,
+  "difficulty": "easy"
+}
+
+### Intelligent Recipe Matching
+POST {{apiUrl}}/recipes/match
+Content-Type: application/json
+
+{
+  "ingredients": ["pasta", "cheese", "eggs", "bacon"],
+  "preferences": {
+    "dietary": "",
+    "maxTime": 30,
+    "difficulty": "medium"
+  }
+}
+
+### Get Ingredient Substitutions
+POST {{apiUrl}}/recipes/substitute
+Content-Type: application/json
+
+{
+  "ingredient": "butter"
+}
+
+### Analyze Image (Base64)
+POST {{apiUrl}}/recipes/analyze-image
+Content-Type: application/json
+
+{
+  "image": "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+}
+
+### ============================================
+### USER ENDPOINTS
+### ============================================
+
+### Toggle Favorite Recipe
+POST {{apiUrl}}/user/favorites
+Content-Type: application/json
+
+{
+  "recipeId": "recipe-001",
+  "userId": "test-user-123"
+}
+
+### Get User Favorites
+GET {{apiUrl}}/user/favorites?userId=test-user-123
+
+### Rate Recipe
+POST {{apiUrl}}/user/ratings
+Content-Type: application/json
+
+{
+  "recipeId": "recipe-001",
+  "rating": 5,
+  "userId": "test-user-123"
+}
+
+### Get Recommendations
+GET {{apiUrl}}/user/recommendations?userId=test-user-123&limit=10
+
+### ============================================
+### ERROR TESTING
+### ============================================
+
+### Invalid Recipe ID
+GET {{apiUrl}}/recipes/invalid-id
+
+### Search without Ingredients
+POST {{apiUrl}}/recipes/search
+Content-Type: application/json
+
+{
+  "ingredients": []
+}
+
+
+### Search without Ingredients
+POST {{apiUrl}}/recipes/search
+Content-Type: application/json
+
+{
+  "ingredients": ["chicken", "tomato", "garlic"]
+}
+
+### Invalid Rating
+POST {{apiUrl}}/user/ratings
+Content-Type: application/json
+
+{
+  "recipeId": "recipe-001",
+  "rating": 5
+}
