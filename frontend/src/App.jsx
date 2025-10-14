@@ -20,12 +20,20 @@ export default function App() {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters)
-    fetchRecipes(newFilters)
+    if (searchIngredients.length > 0) {
+      searchByIngredients(searchIngredients, newFilters)
+    } else {
+      fetchRecipes(newFilters)
+    }
   }
 
   const handleSearch = (ingredients) => {
     setSearchIngredients(ingredients)
-    searchByIngredients(ingredients, filters)
+    if (ingredients.length === 0) {
+      fetchRecipes(filters)
+    } else {
+      searchByIngredients(ingredients, filters)
+    }
   }
 
   const handleImageAnalysis = (ingredients) => {

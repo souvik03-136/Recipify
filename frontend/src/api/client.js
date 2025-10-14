@@ -10,8 +10,12 @@ const handleResponse = async (response) => {
 
 export const recipeAPI = {
   getAll: async (params = {}) => {
-    const query = new URLSearchParams(params).toString()
-    const response = await fetch(`${API_BASE}/recipes?${query}`)
+    const cleanParams = Object.fromEntries(
+      Object.entries(params).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+    )
+    const query = new URLSearchParams(cleanParams).toString()
+    const url = query ? `${API_BASE}/recipes?${query}` : `${API_BASE}/recipes`
+    const response = await fetch(url)
     return handleResponse(response)
   },
 
@@ -30,10 +34,13 @@ export const recipeAPI = {
   },
 
   match: async (ingredients, preferences = {}) => {
+    const cleanPreferences = Object.fromEntries(
+      Object.entries(preferences).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+    )
     const response = await fetch(`${API_BASE}/recipes/match`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ingredients, preferences })
+      body: JSON.stringify({ ingredients, preferences: cleanPreferences })
     })
     return handleResponse(response)
   },

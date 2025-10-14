@@ -20,11 +20,13 @@ export default function RecipeSearch({ onSearch }) {
   const removeIngredient = (ing) => {
     const newIngredients = ingredients.filter(i => i !== ing)
     setIngredients(newIngredients)
-    if (newIngredients.length === 0) {
-      onSearch([])
-    } else {
-      onSearch(newIngredients)
-    }
+    onSearch(newIngredients)
+  }
+
+  const clearAll = () => {
+    setIngredients([])
+    setInputValue('')
+    onSearch([])
   }
 
   const handleKeyPress = (e) => {
@@ -47,28 +49,41 @@ export default function RecipeSearch({ onSearch }) {
             className="pl-12"
           />
         </div>
-        <Button onClick={addIngredient} className="gap-2 flex-shrink-0">
+        <Button onClick={addIngredient} disabled={!inputValue.trim()} className="gap-2 flex-shrink-0">
           <Plus className="w-4 h-4" />
           Add
         </Button>
       </div>
 
       {ingredients.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {ingredients.map(ing => (
-            <div
-              key={ing}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm font-medium shadow-md"
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-slate-700">
+              Active ingredients ({ingredients.length})
+            </p>
+            <button
+              onClick={clearAll}
+              className="text-sm text-slate-500 hover:text-slate-700 transition-colors"
             >
-              <span>{ing}</span>
-              <button
-                onClick={() => removeIngredient(ing)}
-                className="hover:bg-white/20 rounded-full p-0.5 transition-colors"
+              Clear all
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {ingredients.map(ing => (
+              <div
+                key={ing}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm font-medium shadow-md hover:shadow-lg transition-shadow"
               >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          ))}
+                <span>{ing}</span>
+                <button
+                  onClick={() => removeIngredient(ing)}
+                  className="hover:bg-white/20 rounded-full p-0.5 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
