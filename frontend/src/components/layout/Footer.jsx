@@ -4,10 +4,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center space-y-2">
           <p className="text-sm text-slate-600">
-            Built with React, Tailwind CSS & Express
+            Turning simple ingredients into smart, delicious possibilities 🍳
           </p>
           <p className="text-xs text-slate-400">
-            © 2025 Smart Recipe Generator. All rights reserved.
+            Made with ❤️ by Souvik Mahanta
           </p>
         </div>
       </div>
